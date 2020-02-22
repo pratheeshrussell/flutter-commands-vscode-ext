@@ -4,11 +4,13 @@ This extension can run commonly use flutter commands from the command pallete. I
 
 ## Features
 
-Flutter APK Build:In Parts - will buld the files in differnt parts
+Flutter APK Build:In Parts - will build different files for different ABI(Application Binary Interface)
+Flutter APK Build:Fat - will build a single fat apk file in release mode
+Flutter Repair Import Errors - Deletes the package file and runs pub get command
 
 ## Requirements
 
-YOu must have Flutter and Dart installed previously
+You must have Flutter and Dart installed previously
 
 
 ## Known Issues
@@ -20,6 +22,10 @@ Nothing so far since this is only a test
 ### 0.0.1
 
 Initial release of the extension with a single command
+
+### 0.0.2
+
+Two more commands added
 
 
 **Enjoy!**
