@@ -1,6 +1,6 @@
 # flutter-commands README
 
-This extension can run commonly use flutter commands from the command pallete. I don't think it will be helpful as this is only a test on how to create an extension
+This extension can run commonly use flutter commands from the command palette. I don't think it will be useful as this is only a test on how to create an extension
 
 ## Features
 
