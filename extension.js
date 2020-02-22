@@ -62,11 +62,10 @@ function activate(context) {
 		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++, vscode.workspace.rootPath);
 		}
 		 terminal.show;
-		 console.log('Running command flutter build apk --release');
+		 console.log('Running commands');
 		 await vscode.workspace.findFiles("**/.packages").then((paths) =>{
 			if(paths.length > 0){
 			  vscode.workspace.fs.delete(paths[0]);
-				//console.log("This is a flutter project");
 			}
 		});
 		 
@@ -74,10 +73,35 @@ function activate(context) {
 
 	});
 
+	let runProjectRepair = vscode.commands.registerCommand('extension.runProjectRepair', async function () {
+		console.log('Attempting to run command...');
+		let isOk = await isFlutterProject();
+		if(isOk == false){
+			console.log('This is not a flutter project');
+			vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
+			return;
+		}
+		
+		let terminal;
+		if (ensureTerminalExists()) {
+			terminal =(vscode.window).activeTerminal;
+		} else {
+		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++, vscode.workspace.rootPath);
+		}
+		 terminal.show;
+		 console.log('Attempting to repair project'); 
+		 
+		 terminal.sendText("flutter clean");
+		 terminal.sendText("flutter create .");
+
+	});
+
 
 	context.subscriptions.push(runBuildInParts);
 	context.subscriptions.push(runBuildFat);
 	context.subscriptions.push(runPackageRepair);
+	context.subscriptions.push(runProjectRepair);
+	
 }
 exports.activate = activate;
 
