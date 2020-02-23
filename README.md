@@ -1,6 +1,6 @@
 # flutter-commands README
 
-This extension can run commonly use flutter commands from the command palette. I don't think it will be useful as this is only a test on how to create an extension
+This extension can run commonly used flutter commands from the command palette/activity bar. I don't think it will be useful to anyone since this is only a test on how to create an extension
 
 ## Features
 
@@ -13,6 +13,10 @@ Flutter Repair Project - Runs flutter clean and flutter create .
 
 You must have Flutter and Dart installed previously
 
+## Thanks
+
+I used the icon taken from here http://www.onlinewebfonts.com
+
 
 ## Known Issues
 
@@ -20,17 +24,22 @@ Nothing so far since this is only a test
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.4
 
-Initial release of the extension with a single command
+Playing with tree view and activity bar
+
+### 0.0.3
+
+One more command added
 
 ### 0.0.2
 
 Two more commands added
 
-### 0.0.3
+### 0.0.1
 
-One more command added
+Initial release of the extension with a single command
+
 
 
 **Enjoy!**

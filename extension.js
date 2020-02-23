@@ -1,16 +1,44 @@
-const vscode = require('vscode');
-
+var vscode = require( 'vscode' );
+var tree = require( './treeView.js' );
 /**
  * @param {vscode.ExtensionContext} context
  */
-//flutter build apk --release
-function activate(context) {
+
+async function activate(context) {
 	let newTerminalId = 1;
+	let isOk2 = await isFlutterProject();
+	if( isOk2   === false )
+        {
+            vscode.commands.executeCommand( 'setContext', 'flutter-commands-is-active', false );
+        }
+        else
+        {
+			vscode.commands.executeCommand( 'setContext', 'flutter-commands-is-active', true );			
+        }
+	
+	var provider = new tree.TreeNodeProvider(context);
+	var todoTreeView = vscode.window.createTreeView( "flutter-Commands", { treeDataProvider: provider } );
+	vscode.commands.registerCommand('fluttercmd.executecmd', function(cmdno) {
+		if(cmdno == "1"){
+			vscode.commands.executeCommand("extension.runBuildInParts");
+		} else if(cmdno == "2"){
+			vscode.commands.executeCommand("extension.runBuildFat");
+		} else if(cmdno == "3"){
+			vscode.commands.executeCommand("extension.runPackageRepair");
+		} else if(cmdno == "4"){
+			vscode.commands.executeCommand("extension.runProjectRepair");
+		}
+		
+	});
+
+
+
+
+
 	let runBuildInParts = vscode.commands.registerCommand('extension.runBuildInParts', async function () {
 		console.log('Attempting to run command...');
 		let isOk = await isFlutterProject();
 		if(isOk == false){
-			console.log('This is not a flutter project');
 			vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
 			return;
 		}
@@ -19,7 +47,7 @@ function activate(context) {
 		if (ensureTerminalExists()) {
 			terminal =(vscode.window).activeTerminal;
 		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++, vscode.workspace.rootPath);
+		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
 		}
 		 terminal.show;
 		 console.log('Running command flutter build apk --split-per-abi');
@@ -39,7 +67,7 @@ function activate(context) {
 		if (ensureTerminalExists()) {
 			terminal =(vscode.window).activeTerminal;
 		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++, vscode.workspace.rootPath);
+		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
 		}
 		 terminal.show;
 		 console.log('Running command flutter build apk --release');
@@ -59,7 +87,7 @@ function activate(context) {
 		if (ensureTerminalExists()) {
 			terminal =(vscode.window).activeTerminal;
 		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++, vscode.workspace.rootPath);
+		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
 		}
 		 terminal.show;
 		 console.log('Running commands');
@@ -86,7 +114,7 @@ function activate(context) {
 		if (ensureTerminalExists()) {
 			terminal =(vscode.window).activeTerminal;
 		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++, vscode.workspace.rootPath);
+		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
 		}
 		 terminal.show;
 		 console.log('Attempting to repair project'); 
@@ -96,7 +124,7 @@ function activate(context) {
 
 	});
 
-
+	context.subscriptions.push(todoTreeView);
 	context.subscriptions.push(runBuildInParts);
 	context.subscriptions.push(runBuildFat);
 	context.subscriptions.push(runPackageRepair);
@@ -128,3 +156,10 @@ async function isFlutterProject() {
 	});
 	return status;
 }
+
+
+
+
+
+
+

@@ -3,7 +3,8 @@
 	"displayName": "Flutter Commands",
 	"description": "An extension to simplify flutter commands",
 	"publisher": "PratheeshRussell",
-	"version": "0.0.3",
+	"icon": "resources/icon.png",
+	"version": "0.0.4",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -15,34 +16,77 @@
 	"categories": [
 		"Other"
 	],
+	"keywords": [
+		"flutter",
+		"commands"
+	],
 	"activationEvents": [
-		"onCommand:extension.runBuildInParts",
-		"onCommand:extension.runBuildFat",
-		"onCommand:extension.runPackageRepair",
-		"onCommand:extension.runProjectRepair"
+			"*"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "extension.runBuildInParts",
-				"title": "Flutter APK Build:In Parts"
+				"title": "Build Split APK",
+				"category": "Flutter Commands"
 			},
 			{
 				"command": "extension.runBuildFat",
-				"title": "Flutter APK Build:Fat"
+				"title": "Build Fat APK",
+				"category": "Flutter Commands"
 			},
 			{
 				"command": "extension.runPackageRepair",
-				"title": "Flutter Repair Import Errors"
+				"title": "Repair Imports",
+				"category": "Flutter Commands"
 			},
 			{
 				"command": "extension.runProjectRepair",
-				"title": "Flutter Repair Project"
+				"title": "Repair Project",
+				"category": "Flutter Commands"
 			}
 			
-		]
-		
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "flutter-commands-container",
+					"title": "Flutter Commands",
+					"icon": "resources/flutter-commands-icon.svg"
+				}
+			]
+		},
+		"views": {
+			"flutter-commands-container": [
+				{
+					"id": "flutter-Commands",
+					"name": "Commands",
+					"when": "flutter-commands-is-active"
+				}
+			]
+		},
+		"menus": {
+					
+			"commandPalette": [
+				{
+					"command": "extension.runBuildInParts",
+					"when": "flutter-commands-is-active"
+				},
+				{
+					"command": "extension.runBuildFat",
+					"when": "flutter-commands-is-active"
+				},
+				{
+					"command": "extension.runPackageRepair",
+					"when": "flutter-commands-is-active"
+				},
+				{
+					"command": "extension.runProjectRepair",
+					"when": "flutter-commands-is-active"
+				}
+			]
+		}
 	},
 
 	"scripts": {
