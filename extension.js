@@ -1,13 +1,18 @@
-var vscode = require( 'vscode' );
+const vscode = require('vscode');
 var tree = require( './treeView.js' );
+
 /**
  * @param {vscode.ExtensionContext} context
  */
 
+//In case we need to create a terminal
+let newTerminalId = 1;
+
+//This function runs when the extension gets activated
 async function activate(context) {
-	let newTerminalId = 1;
-	let isOk2 = await isFlutterProject();
-	if( isOk2   === false )
+	//tree view
+	let isthisFlutter = await isFlutterProject();
+	if( isthisFlutter   === false )
         {
             vscode.commands.executeCommand( 'setContext', 'flutter-commands-is-active', false );
         }
@@ -31,96 +36,27 @@ async function activate(context) {
 		
 	});
 
-
-
-
-
+	//commands
 	let runBuildInParts = vscode.commands.registerCommand('extension.runBuildInParts', async function () {
-		console.log('Attempting to run command...');
-		let isOk = await isFlutterProject();
-		if(isOk == false){
-			vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
-			return;
-		}
-		
-		let terminal;
-		if (ensureTerminalExists()) {
-			terminal =(vscode.window).activeTerminal;
-		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
-		}
-		 terminal.show;
-		 console.log('Running command flutter build apk --split-per-abi');
-		 terminal.sendText("flutter build apk --split-per-abi");
+		 runCommand("flutter build apk --split-per-abi");
 	});
 
 	let runBuildFat = vscode.commands.registerCommand('extension.runBuildFat', async function () {
-		console.log('Attempting to run command...');
-		let isOk = await isFlutterProject();
-		if(isOk == false){
-			console.log('This is not a flutter project');
-			vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
-			return;
-		}
-		
-		let terminal;
-		if (ensureTerminalExists()) {
-			terminal =(vscode.window).activeTerminal;
-		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
-		}
-		 terminal.show;
-		 console.log('Running command flutter build apk --release');
-		 terminal.sendText("flutter build apk --release");
+		runCommand("flutter build apk --release");
 	});
 
 	let runPackageRepair = vscode.commands.registerCommand('extension.runPackageRepair', async function () {
-		console.log('Attempting to run command...');
-		let isOk = await isFlutterProject();
-		if(isOk == false){
-			console.log('This is not a flutter project');
-			vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
-			return;
-		}
-		
-		let terminal;
-		if (ensureTerminalExists()) {
-			terminal =(vscode.window).activeTerminal;
-		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
-		}
-		 terminal.show;
-		 console.log('Running commands');
 		 await vscode.workspace.findFiles("**/.packages").then((paths) =>{
 			if(paths.length > 0){
 			  vscode.workspace.fs.delete(paths[0]);
 			}
 		});
-		 
-		 terminal.sendText("flutter pub get");
-
+		runCommand("flutter pub get");
 	});
 
 	let runProjectRepair = vscode.commands.registerCommand('extension.runProjectRepair', async function () {
-		console.log('Attempting to run command...');
-		let isOk = await isFlutterProject();
-		if(isOk == false){
-			console.log('This is not a flutter project');
-			vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
-			return;
-		}
-		
-		let terminal;
-		if (ensureTerminalExists()) {
-			terminal =(vscode.window).activeTerminal;
-		} else {
-		 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
-		}
-		 terminal.show;
-		 console.log('Attempting to repair project'); 
-		 
-		 terminal.sendText("flutter clean");
-		 terminal.sendText("flutter create .");
+		 await runCommand("flutter clean");
+		 runCommand("flutter create .");
 
 	});
 
@@ -129,15 +65,34 @@ async function activate(context) {
 	context.subscriptions.push(runBuildFat);
 	context.subscriptions.push(runPackageRepair);
 	context.subscriptions.push(runProjectRepair);
-	
 }
 exports.activate = activate;
 
 
+// this method is called when your extension is deactivated
 function deactivate() {}
 module.exports = {
 	activate,
 	deactivate
+}
+
+async function runCommand(cmd){
+	vscode.window.showInformationMessage('Attempting to run command');
+	let isFlutter = await isFlutterProject();
+	if(isFlutter == false){
+		vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
+		return;
+	}
+	
+	let terminal;
+	if (ensureTerminalExists()) {
+		terminal =(vscode.window).activeTerminal;
+	} else {
+	 terminal = vscode.window.createTerminal('Flutter Command Terminal' + newTerminalId++);
+	}
+	 terminal.show;
+	 terminal.sendText(cmd);
+
 }
 
 function ensureTerminalExists() {
@@ -146,20 +101,13 @@ function ensureTerminalExists() {
 	}
 	return true;
 }
+
 async function isFlutterProject() {
 	let status = false;
 	await vscode.workspace.findFiles("**/pubspec.yaml").then((paths) =>{
 		if(paths.length > 0){
 			status = true;
-			//console.log("This is a flutter project");
 		}
 	});
 	return status;
 }
-
-
-
-
-
-
-

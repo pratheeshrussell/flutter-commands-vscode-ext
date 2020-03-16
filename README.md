@@ -20,26 +20,7 @@ I used the icon taken from here http://www.onlinewebfonts.com
 
 ## Known Issues
 
-Nothing so far since this is only a test
-
-## Release Notes
-
-### 0.0.4
-
-Playing with tree view and activity bar
-
-### 0.0.3
-
-One more command added
-
-### 0.0.2
-
-Two more commands added
-
-### 0.0.1
-
-Initial release of the extension with a single command
-
+- There is a delay in running the command. Probably coz it is trying to find a terminal
 
 
 **Enjoy!**
