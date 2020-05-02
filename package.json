@@ -4,7 +4,7 @@
 	"description": "An extension to simplify flutter commands",
 	"publisher": "PratheeshRussell",
 	"icon": "resources/icon.png",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -34,6 +34,11 @@
 			{
 				"command": "extension.runBuildFat",
 				"title": "Build Fat APK",
+				"category": "Flutter Commands"
+			},
+			{
+				"command": "extension.runBuildBundle",
+				"title": "Build APK App Bundle",
 				"category": "Flutter Commands"
 			},
 			{
@@ -83,6 +88,10 @@
 				},
 				{
 					"command": "extension.runProjectRepair",
+					"when": "flutter-commands-is-active"
+				},
+				{
+					"command": "extension.runBuildBundle",
 					"when": "flutter-commands-is-active"
 				}
 			]

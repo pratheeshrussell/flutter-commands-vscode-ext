@@ -1,13 +1,14 @@
 # flutter-commands README
 
-This extension can run commonly used flutter commands from the command palette/activity bar. I don't think it will be useful to anyone since this is only a test on how to create an extension
+This extension can run commonly used flutter commands from the command palette/activity bar. This is my attempt to learn about creating a vs code extension and so might not be much useful but if anyone wants to improve it send a PR
 
 ## Features
 
-Flutter APK Build:In Parts - will build different files for different ABI(Application Binary Interface)  
-Flutter APK Build:Fat - will build a single fat apk file in release mode  
-Flutter Repair Import Errors - Deletes the package file and runs pub get command  
-Flutter Repair Project - Runs flutter clean and flutter create .  
+Flutter Commands: Build Split APK - will build different files for different ABI(Application Binary Interface)  
+Flutter Commands: Build Fat APK - will build a single fat apk file in release mode  
+Flutter Commands: Build APK App Bundle - will build the app bundle
+Flutter Commands: Repair Imports - Deletes the package file and runs pub get command  
+Flutter Commands: Repair Project - Runs flutter clean and flutter create .  
 
 ## Requirements
 

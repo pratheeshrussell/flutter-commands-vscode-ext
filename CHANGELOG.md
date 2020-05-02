@@ -7,6 +7,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## Release Notes
 
+### 0.0.6
+
+Added Build APK App Bundle command and info before running a command will be shown in status bar
+
 ### 0.0.5
 
 Shows info before running a command

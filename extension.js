@@ -32,17 +32,23 @@ async function activate(context) {
 			vscode.commands.executeCommand("extension.runPackageRepair");
 		} else if(cmdno == "4"){
 			vscode.commands.executeCommand("extension.runProjectRepair");
+		} else if(cmdno == "5"){
+			vscode.commands.executeCommand("extension.runBuildBundle");
 		}
 		
 	});
 
 	//commands
 	let runBuildInParts = vscode.commands.registerCommand('extension.runBuildInParts', async function () {
-		 runCommand("flutter build apk --split-per-abi");
+		await runCommand("flutter build apk --split-per-abi");
 	});
 
+	let runBuildBundle = vscode.commands.registerCommand('extension.runBuildBundle', async function () {
+		await runCommand("flutter build appbundle --target-platform android-arm,android-arm64,android-x64");
+   });
+
 	let runBuildFat = vscode.commands.registerCommand('extension.runBuildFat', async function () {
-		runCommand("flutter build apk --release");
+		await runCommand("flutter build apk --release");
 	});
 
 	let runPackageRepair = vscode.commands.registerCommand('extension.runPackageRepair', async function () {
@@ -51,18 +57,19 @@ async function activate(context) {
 			  vscode.workspace.fs.delete(paths[0]);
 			}
 		});
-		runCommand("flutter pub get");
+		await runCommand("flutter pub get");
 	});
 
 	let runProjectRepair = vscode.commands.registerCommand('extension.runProjectRepair', async function () {
-		 await runCommand("flutter clean");
-		 runCommand("flutter create .");
-
+		 await runCommand("flutter clean").then(async () => {
+			await runCommand("flutter create .");
+		 });
 	});
 
 	context.subscriptions.push(todoTreeView);
 	context.subscriptions.push(runBuildInParts);
 	context.subscriptions.push(runBuildFat);
+	context.subscriptions.push(runBuildBundle);
 	context.subscriptions.push(runPackageRepair);
 	context.subscriptions.push(runProjectRepair);
 }
@@ -77,7 +84,9 @@ module.exports = {
 }
 
 async function runCommand(cmd){
-	vscode.window.showInformationMessage('Attempting to run command');
+	//vscode.window.showInformationMessage('Attempting to run command');
+	vscode.window.setStatusBarMessage('Attempting to run command open terminal if not visible');
+
 	let isFlutter = await isFlutterProject();
 	if(isFlutter == false){
 		vscode.window.showInformationMessage('This doesn\'t seem to be a flutter project');
