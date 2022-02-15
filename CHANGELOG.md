@@ -9,6 +9,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### 0.0.6
 
+Added command to regenerate podfile along with flutter clean
+
+### 0.0.6
+
 Added Build APK App Bundle command and info before running a command will be shown in status bar
 
 ### 0.0.5

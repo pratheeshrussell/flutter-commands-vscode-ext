@@ -50,6 +50,11 @@
 				"command": "extension.runProjectRepair",
 				"title": "Repair Project",
 				"category": "Flutter Commands"
+			},
+			{
+				"command": "extension.runRebuildPodAndProject",
+				"title": "Clean Pod and Rebuild",
+				"category": "Flutter Commands"
 			}
 			
 		],
@@ -92,6 +97,10 @@
 				},
 				{
 					"command": "extension.runBuildBundle",
+					"when": "flutter-commands-is-active"
+				},
+				{
+					"command": "extension.runRebuildPodAndProject",
 					"when": "flutter-commands-is-active"
 				}
 			]
